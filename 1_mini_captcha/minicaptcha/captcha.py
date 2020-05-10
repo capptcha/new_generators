@@ -33,7 +33,8 @@ class ICaptcha:
     def __init__(self, font= DEFAULTFONT_2, save_path=BASE_DIR):
         self.__font = ImageFont.truetype(font, size=60)
         self.__save_path = save_path
-
+    def __del__(self):
+        pass
     @staticmethod
     def generate_character(chr_count=5):
         """Generates Random Character And Digit With The Specific Length That You Give To It.
@@ -152,7 +153,7 @@ class ICaptcha:
 
     # Main Contorler
 
-    def write_image(self, text, show_test=False, save_img=False):
+    def write_image(self, text,counter,label,folder, show_test=False, save_img=False):
         """this function make simple image captcha for you
 
         this funcation make simple captcha image for you that we can use it in your project
@@ -175,4 +176,4 @@ class ICaptcha:
         if show_test:
             pure_background_image.show()
         if save_img:
-            pure_background_image.save(f'{self.__save_path}\\name_{self.generate_character(15)}.jpg',)
+            pure_background_image.save(f'{folder}/{label}_{counter}.jpg',)
