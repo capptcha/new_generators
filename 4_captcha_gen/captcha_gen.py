@@ -2,12 +2,13 @@ from PIL import ImageFont, Image, ImageDraw
 import random
 import string
 import os
-
+from tqdm import tqdm
+import shutil
 
 class Captcha:
     def __init__(self):
         self.key = self.random_key()
-        self.font = ImageFont.truetype("MotivaSans-Thin.otf", 23)
+        self.font = ImageFont.truetype("Roboto-Medium.ttf", 23)
         self.size = (120, 35)
         self.background = (245, 245, 245)
         self.circle_color = (180, 180, 180)
@@ -15,14 +16,15 @@ class Captcha:
         self.x_off = 10
         self.y_off = 3
         self.char_color = [(150, 150, 150), (92, 92, 92)]
-
+    def __del__(self):
+        pass
     def random_key(self):
         key = ''
         for letter in range(6):
             key += random.choice(string.ascii_lowercase + string.digits)
         return key
 
-    def create_image(self):
+    def create_image(self,counter):
         image1 = Image.new("RGB", self.size, self.background)
         draw = ImageDraw.Draw(image1)
 
@@ -43,8 +45,9 @@ class Captcha:
         if os.path.exists(path) is False:
             os.mkdir(path)
 
-        image1.save(path + self.key + ".png")
+        image1.save(path + self.key+"_"+str(counter) + ".png")
 
 
 if __name__ == "__main__":
-    [Captcha().create_image() for x in range(100)]  # number of captchas to be created
+    [Captcha().create_image(x) for x in tqdm(range(800000))]  # number of captchas to be created
+    shutil.make_archive('data', 'zip', 'data')
