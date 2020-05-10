@@ -38,6 +38,8 @@ class _Captcha(object):
     def generate_dbg(self, chars, font_size=None):
         im = self.generate_image(chars, font_size)
         return im
+    def __del__(self):
+        pass
 
 
 class WheezyCaptcha(_Captcha):
@@ -49,6 +51,8 @@ class WheezyCaptcha(_Captcha):
         self.font_sizes = font_sizes
         self.squeeze_factor = squeeze_factor
         self.border = border
+    def __del__(self):
+        pass
     def _outline(self, draw, dx, dy, c, font, color, border=2):
         draw.text((dx - border, dy), c, font=font, fill=color)
         draw.text((dx + border, dy), c, font=font, fill=color)

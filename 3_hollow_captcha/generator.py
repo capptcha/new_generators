@@ -1,7 +1,5 @@
 '''
 Created on Dec 30, 2018
-
-
 '''
 
 
@@ -9,13 +7,16 @@ from image import WheezyCaptcha
 import fire
 import random
 import os
+import shutil
+from tqdm import tqdm
+
 #_characters = 'adefhjkmnprstuvwxyABDEFHJKLMNPRSTUVWXY34578'
 _characters = 'ABCDEFGHJKLMNPRSTUVWXY3456789'
 #"345689abcdeghjkmnprstuvwxy"
 
 
     
-def gen(amount,repeat=10,fonts_dir="fonts/",out_dir="train_samples/"):
+def gen(amount,repeat=1,fonts_dir="fonts/",out_dir="data/"):
     files = os.listdir(fonts_dir)
     fonts=[]
     for name in files:
@@ -28,7 +29,7 @@ def gen(amount,repeat=10,fonts_dir="fonts/",out_dir="train_samples/"):
                        
                        )
     # im = image.generate_dbg('3A9B')
-    for _ in range(amount):
+    for _ in tqdm(range(amount)):
         sizes = [4, 5]
         chars = random.sample(_characters, random.choice(sizes))
         seed = "".join(chars)
@@ -39,9 +40,12 @@ def gen(amount,repeat=10,fonts_dir="fonts/",out_dir="train_samples/"):
         for i in range(repeat):
             im = image.generate_dbg(str(seed), font_size=font_size)
 #         im.show()
-            im.save(out_dir+seed+"_"+str(i) + ".png", format="png")
-fire.Fire()
-# gen(2)    
+            im.save(out_dir+seed+"_"+str(_) + ".png", format="png")
+#fire.Fire()
+gen(1000000)
+print("Zipping Wait...")
+shutil.make_archive('data', 'zip', 'data')
+print("Process done successfully")
     
     
     
