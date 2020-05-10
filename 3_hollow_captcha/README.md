@@ -1,2 +1,5 @@
 # hollow_captcha
-python generator.py gen 10
+```
+$ pip install wheezy.captcha
+$ python generator.py
+```
